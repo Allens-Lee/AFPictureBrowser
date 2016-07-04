@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "AFPictureBrowserView.h"
+#import "AFPictureBrowser.h"
 #import "TableViewCell.h"
 #import "AFNormalViewController.h"
 #import "AFScrollerViewController.h"

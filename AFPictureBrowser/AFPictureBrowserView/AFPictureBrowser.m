@@ -6,13 +6,13 @@
 //  Copyright © 2016年 李鑫浩. All rights reserved.
 //
 
-#import "AFPictureBrowserView.h"
+#import "AFPictureBrowser.h"
 #import "AFTempConverData.h"
 #import "AFZoomView.h"
 
 #define kWindow [[[UIApplication sharedApplication] delegate]window]
 
-@interface AFPictureBrowserView ()<UIScrollViewDelegate>
+@interface AFPictureBrowser ()<UIScrollViewDelegate>
 {
     UIView *m_pBackgroundView;
     UIScrollView *m_pScrollView;
@@ -26,7 +26,7 @@
 
 @end
 
-@implementation AFPictureBrowserView
+@implementation AFPictureBrowser
 
 - (id)init
 {
@@ -237,11 +237,13 @@
     }
     if (size.height / size.width > 2.0f)
     {
-        return CGRectMake((self.frame.size.width - fWidth) / 2.0f, 0, fWidth, fHeight);
+        CGFloat yMargin = fHeight > self.frame.size.height ? 0.0f : (self.frame.size.height - fHeight) / 2.0f;
+        return CGRectMake((self.frame.size.width - fWidth) / 2.0f, yMargin, fWidth, fHeight);
     }
     else if (size.width / size.height > 2.0f)
     {
-        return CGRectMake(0, (self.frame.size.height - fHeight) / 2.0f, fWidth, fHeight);
+        CGFloat xMargin = fWidth > self.frame.size.width ? 0.0f : (self.frame.size.width - fWidth) / 2.0f;
+        return CGRectMake(xMargin, (self.frame.size.height - fHeight) / 2.0f, fWidth, fHeight);
     }
     else
     {
@@ -360,11 +362,6 @@
             [pZoomView StartLoadImageWithUrl:m_arrImageUrl[m_iCurrentPage + i - 1]];
         }
     }
-}
-
-- (void)dealloc
-{
-    NSLog(@"释放");
 }
 
 @end

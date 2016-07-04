@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AFPictureBrowserView : UIView
+@interface AFPictureBrowser : UIView
 
 /**
  *  已知所有要展示的imageview，选择其中一个imageview作为优先查看对象
@@ -19,7 +19,7 @@
 - (void)ShowWithImageViews:(NSArray*)views SelectedView:(UIImageView*)selectedView;
 
 /**
- *  该方法主要用于缩略图加载的方法
+ *  该方法主要用于已知缩略图加载详细图的情况
  *
  *  @param views        所有的imageview组成的一个数组
  *  @param selectedView 被选中的其中一个的imageview

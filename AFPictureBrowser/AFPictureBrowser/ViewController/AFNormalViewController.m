@@ -7,7 +7,7 @@
 //
 
 #import "AFNormalViewController.h"
-#import "AFPictureBrowserView.h"
+#import "AFPictureBrowser.h"
 
 @interface AFNormalViewController ()
 {
@@ -47,7 +47,7 @@
 #pragma mark -- Target method
 - (void)ShowThisImage:(UIGestureRecognizer *)gesture
 {
-    AFPictureBrowserView *pPictureBrowserV = [[AFPictureBrowserView alloc]init];
+    AFPictureBrowser *pPictureBrowserV = [[AFPictureBrowser alloc]init];
     [pPictureBrowserV ShowWithImageViews:m_arrImageView SelectedView:(UIImageView *)gesture.view];
 }
 

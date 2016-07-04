@@ -14,7 +14,7 @@
 		FCF443521D2809F0003EC49E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCF443511D2809F0003EC49E /* Assets.xcassets */; };
 		FCF443601D2809F0003EC49E /* AFPictureBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF4435F1D2809F0003EC49E /* AFPictureBrowserTests.m */; };
 		FCF4436B1D2809F0003EC49E /* AFPictureBrowserUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF4436A1D2809F0003EC49E /* AFPictureBrowserUITests.m */; };
-		FCF4437B1D280D10003EC49E /* AFPictureBrowserView.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF4437A1D280D10003EC49E /* AFPictureBrowserView.m */; };
+		FCF4437B1D280D10003EC49E /* AFPictureBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF4437A1D280D10003EC49E /* AFPictureBrowser.m */; };
 		FCF4437E1D280ED7003EC49E /* AFTempConverData.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF4437D1D280ED7003EC49E /* AFTempConverData.m */; };
 		FCF443841D28FCAE003EC49E /* AFZoomView.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF443831D28FCAE003EC49E /* AFZoomView.m */; };
 		FCF443A71D292B65003EC49E /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF443871D292B65003EC49E /* MKAnnotationView+WebCache.m */; };
@@ -81,8 +81,8 @@
 		FCF443661D2809F0003EC49E /* AFPictureBrowserUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AFPictureBrowserUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCF4436A1D2809F0003EC49E /* AFPictureBrowserUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFPictureBrowserUITests.m; sourceTree = "<group>"; };
 		FCF4436C1D2809F0003EC49E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FCF443791D280D10003EC49E /* AFPictureBrowserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPictureBrowserView.h; sourceTree = "<group>"; };
-		FCF4437A1D280D10003EC49E /* AFPictureBrowserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFPictureBrowserView.m; sourceTree = "<group>"; };
+		FCF443791D280D10003EC49E /* AFPictureBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPictureBrowser.h; sourceTree = "<group>"; };
+		FCF4437A1D280D10003EC49E /* AFPictureBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFPictureBrowser.m; sourceTree = "<group>"; };
 		FCF4437C1D280ED7003EC49E /* AFTempConverData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFTempConverData.h; sourceTree = "<group>"; };
 		FCF4437D1D280ED7003EC49E /* AFTempConverData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFTempConverData.m; sourceTree = "<group>"; };
 		FCF443821D28FCAE003EC49E /* AFZoomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFZoomView.h; sourceTree = "<group>"; };
@@ -234,8 +234,8 @@
 		FCF443781D280A3C003EC49E /* AFPictureBrowserView */ = {
 			isa = PBXGroup;
 			children = (
-				FCF443791D280D10003EC49E /* AFPictureBrowserView.h */,
-				FCF4437A1D280D10003EC49E /* AFPictureBrowserView.m */,
+				FCF443791D280D10003EC49E /* AFPictureBrowser.h */,
+				FCF4437A1D280D10003EC49E /* AFPictureBrowser.m */,
 				FCF4437C1D280ED7003EC49E /* AFTempConverData.h */,
 				FCF4437D1D280ED7003EC49E /* AFTempConverData.m */,
 				FCF443821D28FCAE003EC49E /* AFZoomView.h */,
@@ -479,7 +479,7 @@
 				FCF4437E1D280ED7003EC49E /* AFTempConverData.m in Sources */,
 				FCF443DF1D2A0975003EC49E /* TableViewCell.m in Sources */,
 				FCF443AE1D292B65003EC49E /* SDWebImageManager.m in Sources */,
-				FCF4437B1D280D10003EC49E /* AFPictureBrowserView.m in Sources */,
+				FCF4437B1D280D10003EC49E /* AFPictureBrowser.m in Sources */,
 				FCF443A91D292B65003EC49E /* SDImageCache.m in Sources */,
 				FCF443DE1D2A0975003EC49E /* AFUrlViewController.m in Sources */,
 			);

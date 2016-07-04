@@ -133,17 +133,25 @@
     }
     if (size.height / size.width > 2.0f)
     {
-        m_pImageView.frame = CGRectMake((self.frame.size.width - fWidth) / 2.0f, 0, fWidth, fHeight);
-        [self setZoomScale:3.0f animated:NO];
-        [self setZoomScale:1.0f animated:NO];
-        [self setContentOffset:CGPointMake(self.contentOffset.x, 0)];
+        CGFloat yMargin = fHeight > self.frame.size.height ? 0.0f : (self.frame.size.height - fHeight) / 2.0f;
+        m_pImageView.frame = CGRectMake((self.frame.size.width - fWidth) / 2.0f, yMargin, fWidth, fHeight);
+        if (yMargin == 0.0f)
+        {
+            [self setZoomScale:3.0f animated:NO];
+            [self setZoomScale:1.0f animated:NO];
+            [self setContentOffset:CGPointMake(self.contentOffset.x, 0.0f)];
+        }
     }
     else if (size.width / size.height > 2.0f)
     {
-        m_pImageView.frame = CGRectMake(0, (self.frame.size.height - fHeight) / 2.0f, fWidth, fHeight);
-        [self setZoomScale:3.0f animated:NO];
-        [self setZoomScale:1.0f animated:NO];
-        [self setContentOffset:CGPointMake(0, self.contentOffset.y)];
+        CGFloat xMargin = fWidth > self.frame.size.width ? 0.0f : (self.frame.size.width - fWidth) / 2.0f;
+        m_pImageView.frame = CGRectMake(xMargin, (self.frame.size.height - fHeight) / 2.0f, fWidth, fHeight);
+        if (xMargin == 0.0f)
+        {
+            [self setZoomScale:3.0f animated:NO];
+            [self setZoomScale:1.0f animated:NO];
+            [self setContentOffset:CGPointMake(0.0f, self.contentOffset.y)];
+        }
     }
     else
     {

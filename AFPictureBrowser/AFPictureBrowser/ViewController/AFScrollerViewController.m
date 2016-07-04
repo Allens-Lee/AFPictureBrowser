@@ -7,7 +7,7 @@
 //
 
 #import "AFScrollerViewController.h"
-#import "AFPictureBrowserView.h"
+#import "AFPictureBrowser.h"
 
 @interface AFScrollerViewController ()
 {
@@ -33,6 +33,8 @@
     {
         UIImageView *pImageV = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width - 100) / 2.0f, i * 150 + 20, 100, 150)];
         pImageV.backgroundColor = [UIColor whiteColor];
+        pImageV.contentMode = UIViewContentModeScaleAspectFill;
+        pImageV.clipsToBounds = YES;
         pImageV.image = [UIImage imageNamed:[NSString stringWithFormat:@"%li", i % 7 + 1]];
         pImageV.userInteractionEnabled = YES;
         [m_pScrollView addSubview:pImageV];
@@ -52,7 +54,7 @@
 #pragma mark -- Target method
 - (void)ShowThisImage:(UIGestureRecognizer *)gesture
 {
-    AFPictureBrowserView *pPictureBrowserV = [[AFPictureBrowserView alloc]init];
+    AFPictureBrowser *pPictureBrowserV = [[AFPictureBrowser alloc]init];
     [pPictureBrowserV ShowWithImageViews:m_arrImageView SelectedView:(UIImageView *)gesture.view];
 }
 

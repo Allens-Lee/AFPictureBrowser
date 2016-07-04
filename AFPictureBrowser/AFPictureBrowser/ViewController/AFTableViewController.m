@@ -7,7 +7,7 @@
 //
 
 #import "AFTableViewController.h"
-#import "AFPictureBrowserView.h"
+#import "AFPictureBrowser.h"
 #import "TableViewCell.h"
 
 @interface AFTableViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -62,7 +62,7 @@
         [arrImageView addObject:(UIImageView *)pCell->m_pImageV];
     }
     TableViewCell *pCell = [tableView cellForRowAtIndexPath:indexPath];
-    AFPictureBrowserView *pPictureBrowserV = [[AFPictureBrowserView alloc]initWithFrame:CGRectZero];
+    AFPictureBrowser *pPictureBrowserV = [[AFPictureBrowser alloc]initWithFrame:CGRectZero];
     [pPictureBrowserV ShowWithImageViews:arrImageView SelectedView:(UIImageView *)pCell->m_pImageV];
 }
 
