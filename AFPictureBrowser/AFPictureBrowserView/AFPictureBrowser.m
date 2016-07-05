@@ -33,7 +33,7 @@
     self = [super init];
     if (self)
     {
-        
+        kWindow.windowLevel = UIWindowLevelAlert;
     }
     return self;
 }
@@ -135,6 +135,7 @@
 {
     [m_pTimer invalidate];
     m_pTimer = nil;
+    kWindow.windowLevel = UIWindowLevelNormal;
     [self removeFromSuperview];
 }
 
@@ -200,38 +201,8 @@
 - (CGRect)ResetImageViewFrame:(UIImageView *)imageView
 {
     CGSize size = (imageView.image) ? imageView.image.size : imageView.frame.size;
-    CGFloat fWidth = 0.0,fHeight = 0.0;
-    if ((size.width >= self.frame.size.width || size.height >= self.frame.size.height) && (size.height / size.width <= 2.0f && size.width / size.height <= 2.0f))
-    {
-        if (size.height * (self.frame.size.width / size.width) > self.frame.size.height)
-        {
-            fHeight = self.frame.size.height;
-            fWidth = size.width * fHeight / size.height;
-        }
-        else
-        {
-            fWidth = self.frame.size.width;
-            fHeight = fWidth * size.height / size.width;
-        }
-    }
-    else
-    {
-        fWidth = size.width;
-        fHeight = size.height;
-        if (size.height / size.width > 2.0f)
-        {
-            if (size.width > self.frame.size.width)
-            {
-                fWidth = self.frame.size.width;
-                fHeight = fWidth * size.height / size.width;
-            }
-        }
-        else if (size.width / size.height > 2.0f)
-        {
-            fWidth = self.frame.size.width;
-            fHeight = fWidth * size.height / size.width;
-        }
-    }
+    CGSize sAdjustSize = [AFTempConverData GetAfterAdjustSizeWithImageView:imageView];
+    CGFloat fWidth = sAdjustSize.width,fHeight = sAdjustSize.height;
     if (size.height / size.width > 2.0f)
     {
         CGFloat yMargin = fHeight > self.frame.size.height ? 0.0f : (self.frame.size.height - fHeight) / 2.0f;
@@ -251,6 +222,7 @@
 
 - (void)PrepareRemoveSelf
 {
+    kWindow.windowLevel = UIWindowLevelNormal;
     for (NSInteger i = 0; i < m_arrImageView.count; i ++)
     {
         UIImageView *pImageView = m_arrImageView[i];

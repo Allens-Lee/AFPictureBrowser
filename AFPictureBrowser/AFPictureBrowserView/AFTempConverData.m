@@ -39,4 +39,39 @@
     view.userInteractionEnabled = NO;
 }
 
++ (CGSize)GetAfterAdjustSizeWithImageView:(UIImageView *)imageView
+{
+    CGSize size = (imageView.image) ? imageView.image.size : imageView.frame.size;
+    CGFloat fFrameHeight = [[UIScreen mainScreen] bounds].size.height;
+    CGFloat fFrameWidth = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat fWidth = 0.0,fHeight = 0.0;
+    if ((size.width >= fFrameWidth || size.height >= fFrameHeight) && size.height / size.width <= 2.0f)
+    {
+        if (size.height * fFrameWidth / size.width > fFrameHeight)
+        {
+            fHeight = fFrameHeight;
+            fWidth = size.width * fHeight / size.height;
+        }
+        else
+        {
+            fWidth = fFrameWidth;
+            fHeight = fWidth * size.height / size.width;
+        }
+    }
+    else
+    {
+        fWidth = size.width;
+        fHeight = size.height;
+        if (size.height / size.width > 2.0f)
+        {
+            if (size.width > fFrameWidth)
+            {
+                fWidth = fFrameWidth;
+                fHeight = fWidth * size.height / size.width;
+            }
+        }
+    }
+    return CGSizeMake(fWidth, fHeight);
+}
+
 @end

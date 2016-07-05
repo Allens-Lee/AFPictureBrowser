@@ -47,4 +47,14 @@
  */
 - (void)SetTempConverDataFromView:(UIView *)view;
 
+
+/**
+ *  获取调整后的imageview的大小
+ *
+ *  @param imageView 处理对象
+ *
+ *  @return size
+ */
++ (CGSize)GetAfterAdjustSizeWithImageView:(UIImageView *)imageView;
+
 @end

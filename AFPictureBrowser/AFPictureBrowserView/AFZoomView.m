@@ -8,11 +8,11 @@
 
 #import "AFZoomView.h"
 #import "UIImageView+WebCache.h"
+#import "AFTempConverData.h"
 
 @interface AFZoomView ()<UIScrollViewDelegate,UIActionSheetDelegate>
 {
     UIImageView *m_pImageView;
-//    NSString *m_strImageUrl;
     UIActivityIndicatorView *m_pActivityIndicatorV;
 }
 
@@ -91,44 +91,12 @@
     }];
 }
 
-
 #pragma mark -- private method
 - (void)RestImageViewFrame;
 {
     CGSize size = (m_pImageView.image) ? m_pImageView.image.size : m_pImageView.frame.size;
-    CGFloat fWidth = 0.0,fHeight = 0.0;
-    if ((size.width >= self.frame.size.width || size.height >= self.frame.size.height) && (size.height / size.width <= 2.0f && size.width / size.height <= 2.0f))
-    {
-        if (size.height * (self.frame.size.width / size.width) > self.frame.size.height)
-        {
-            fHeight = self.frame.size.height;
-            fWidth = size.width * fHeight / size.height;
-        }
-        else
-        {
-            fWidth = self.frame.size.width;
-            fHeight = fWidth * size.height / size.width;
-        }
-    }
-    else
-    {
-        fWidth = size.width;
-        fHeight = size.height;
-        if (size.height / size.width > 2.0f)
-        {
-            if (size.width > self.frame.size.width)
-            {
-                fWidth = self.frame.size.width;
-                fHeight = fWidth * size.height / size.width;
-            }
-        }
-        else if (size.width / size.height > 2.0f)
-        {
-            fWidth = self.frame.size.width;
-            fHeight = fWidth * size.height / size.width;
-            self.maximumZoomScale = self.frame.size.height / fHeight;
-        }
-    }
+    CGSize sAdjustSize = [AFTempConverData GetAfterAdjustSizeWithImageView:m_pImageView];
+    CGFloat fWidth = sAdjustSize.width,fHeight = sAdjustSize.height;
     if (size.height / size.width > 2.0f)
     {
         CGFloat yMargin = fHeight > self.frame.size.height ? 0.0f : (self.frame.size.height - fHeight) / 2.0f;
@@ -142,6 +110,10 @@
     }
     else
     {
+        if (size.width / size.height > 2.0f)
+        {
+            self.maximumZoomScale = self.frame.size.height / fHeight;
+        }
         m_pImageView.frame = CGRectMake((self.frame.size.width - fWidth) / 2.0f, (self.frame.size.height - fHeight) / 2.0f, fWidth, fHeight);
     }
 }
