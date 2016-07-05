@@ -116,19 +116,17 @@
         fHeight = size.height;
         if (size.height / size.width > 2.0f)
         {
-            if (size.width > self.frame.size.width / 3.0f)
+            if (size.width > self.frame.size.width)
             {
-                fWidth = self.frame.size.width / 3.0f;
+                fWidth = self.frame.size.width;
                 fHeight = fWidth * size.height / size.width;
             }
         }
         else if (size.width / size.height > 2.0f)
         {
-            if (size.height > self.frame.size.height / 3.0f)
-            {
-                fHeight = self.frame.size.height / 3.0f;
-                fWidth = size.width * fHeight / size.height;
-            }
+            fWidth = self.frame.size.width;
+            fHeight = fWidth * size.height / size.width;
+            self.maximumZoomScale = self.frame.size.height / fHeight;
         }
     }
     if (size.height / size.width > 2.0f)
@@ -140,17 +138,6 @@
             [self setZoomScale:3.0f animated:NO];
             [self setZoomScale:1.0f animated:NO];
             [self setContentOffset:CGPointMake(self.contentOffset.x, 0.0f)];
-        }
-    }
-    else if (size.width / size.height > 2.0f)
-    {
-        CGFloat xMargin = fWidth > self.frame.size.width ? 0.0f : (self.frame.size.width - fWidth) / 2.0f;
-        m_pImageView.frame = CGRectMake(xMargin, (self.frame.size.height - fHeight) / 2.0f, fWidth, fHeight);
-        if (xMargin == 0.0f)
-        {
-            [self setZoomScale:3.0f animated:NO];
-            [self setZoomScale:1.0f animated:NO];
-            [self setContentOffset:CGPointMake(0.0f, self.contentOffset.y)];
         }
     }
     else
@@ -226,7 +213,8 @@
     if (self.zoomScale == self.minimumZoomScale)
     {
         CGPoint point = [tapGesture locationInView:self];
-        [self zoomToRect:CGRectMake(point.x - 24, point.y - 24 , 48, 48) animated:YES];
+        CGFloat fLength = self.maximumZoomScale;
+        [self zoomToRect:CGRectMake(point.x - fLength, point.y - fLength , 2 * fLength, 2 * fLength) animated:YES];
     }
     else
     {
