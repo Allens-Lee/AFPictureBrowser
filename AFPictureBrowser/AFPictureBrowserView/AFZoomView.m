@@ -110,7 +110,7 @@
     }
     else
     {
-        if (size.width / size.height > 2.0f)
+        if (size.width / size.height > 2.0f && size.width > self.frame.size.width)
         {
             self.maximumZoomScale = self.frame.size.height / fHeight;
         }
