@@ -307,7 +307,10 @@
         for (NSInteger i = 0; i < 2; i ++)
         {
             AFZoomView *pZoomView = [m_pScrollView viewWithTag:m_iCurrentPage + i + 100];
-            [pZoomView StartLoadImageWithUrl:m_arrImageUrl[m_iCurrentPage + i ]];
+            if (pZoomView != nil)
+            {
+                [pZoomView StartLoadImageWithUrl:m_arrImageUrl[m_iCurrentPage + i ]];
+            }
         }
     }
     else if (m_iCurrentPage == m_arrImageView.count - 1)
@@ -315,7 +318,10 @@
         for (NSInteger i = 0; i < 2; i ++)
         {
             AFZoomView *pZoomView = [m_pScrollView viewWithTag:m_iCurrentPage - i + 100];
-            [pZoomView StartLoadImageWithUrl:m_arrImageUrl[m_iCurrentPage - i]];
+            if (pZoomView != nil)
+            {
+                [pZoomView StartLoadImageWithUrl:m_arrImageUrl[m_iCurrentPage - i]];
+            }
         }
     }
     else
@@ -323,7 +329,10 @@
         for (NSInteger i = 0; i < 3; i ++)
         {
             AFZoomView *pZoomView = [m_pScrollView viewWithTag:m_iCurrentPage + i + 99];
-            [pZoomView StartLoadImageWithUrl:m_arrImageUrl[m_iCurrentPage + i - 1]];
+            if (pZoomView != nil)
+            {
+                [pZoomView StartLoadImageWithUrl:m_arrImageUrl[m_iCurrentPage + i - 1]];
+            }
         }
     }
 }
