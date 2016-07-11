@@ -108,9 +108,9 @@
     }
 }
 
-- (void)ShowWithImageUrls:(NSArray *)urls
+- (void)ShowWithImageUrls:(NSArray *)urls SelectItem:(NSInteger)item
 {
-    if (urls.count > 0)
+    if (urls.count > 0 && item < urls.count)
     {
         m_arrImageUrl = [urls copy];
         NSMutableArray *arrImageView = [NSMutableArray array];
@@ -121,7 +121,7 @@
         }
         m_arrImageView = arrImageView;
         [self SetImageViewsFromArray:m_arrImageView];
-        [self ResetAllImageView:m_arrImageView[0]];
+        [self ResetAllImageView:m_arrImageView[item]];
         [self StartLoadNearImageView];
     }
     else
