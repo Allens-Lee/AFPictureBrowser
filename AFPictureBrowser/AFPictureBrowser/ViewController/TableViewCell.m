@@ -28,10 +28,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    if (m_pImageV.superview == self.contentView)
-    {
-        m_pImageV.frame = CGRectMake((self.frame.size.width - 100) / 2.0, 0, 100, 150);
-    }
+    m_pImageV.frame = CGRectMake((self.frame.size.width - 100) / 2.0, 0, 100, 150);
 }
 
 @end

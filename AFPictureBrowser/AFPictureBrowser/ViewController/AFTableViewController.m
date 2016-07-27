@@ -59,7 +59,8 @@
     NSMutableArray *arrImageView = [NSMutableArray array];
     for (NSIndexPath *indexPath in arrIndex) {
         TableViewCell *pCell = [tableView cellForRowAtIndexPath:indexPath];
-        [arrImageView addObject:(UIImageView *)pCell->m_pImageV];
+        UIImageView *pImageView = pCell->m_pImageV;
+        [arrImageView addObject:pImageView];
     }
     TableViewCell *pCell = [tableView cellForRowAtIndexPath:indexPath];
     AFPictureBrowser *pPictureBrowserV = [[AFPictureBrowser alloc]initWithFrame:CGRectZero];

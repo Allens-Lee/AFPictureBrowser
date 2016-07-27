@@ -77,6 +77,12 @@
 #pragma mark -- public method
 - (void)ShowWithImageViews:(NSArray*)views SelectedView:(UIImageView*)selectedView
 {
+    if ([views containsObject:selectedView])
+    {
+        NSArray *arrNewViews = [self CopImageViewsFromArray:views];
+        selectedView = arrNewViews[[views indexOfObject:selectedView]];
+        views = arrNewViews;
+    }
     [self SetImageViewsFromArray:views];
     if (m_arrImageView.count > 0)
     {
@@ -147,6 +153,26 @@
 }
 
 #pragma mark -- pravite method
+- (NSArray *)CopImageViewsFromArray:(NSArray *)views
+{
+    NSMutableArray *arrNewViews = [NSMutableArray array];
+    for (id obj in views)
+    {
+        if ([obj isKindOfClass:[UIImageView class]])
+        {
+            UIImageView *pImageView = (UIImageView *)obj;
+            UIImageView *pNewView = [[UIImageView alloc]init];
+            pNewView.frame = pImageView.frame;
+            [pImageView.superview addSubview:pNewView];
+            pNewView.transform = pImageView.transform;
+            pNewView.userInteractionEnabled = pImageView.userInteractionEnabled;
+            pNewView.image =  pImageView.image;
+            [arrNewViews addObject:pNewView];
+        }
+    }
+    return arrNewViews;
+}
+
 - (void)SetImageViewsFromArray:(NSArray*)views
 {
     NSMutableArray *imgViews = [NSMutableArray array];
@@ -233,7 +259,7 @@
             pImageView.frame = pData.frame;
             pImageView.transform = pData.transform;
             pImageView.userInteractionEnabled = pData.userInteratctionEnabled;
-            [pData.superview addSubview:pImageView];
+//            [pData.superview addSubview:pImageView];
         }
     }
 }
@@ -268,7 +294,7 @@
         pCurrentImageView.userInteractionEnabled = pTempConverData.userInteratctionEnabled;
         pCurrentImageView.transform = pTempConverData.transform;
         pCurrentImageView.alpha = 1.0f;
-        [pTempConverData.superview addSubview:pCurrentImageView];
+//        [pTempConverData.superview addSubview:pCurrentImageView];
         [self RemoveFromSuperView];
     }];
 }
