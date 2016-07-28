@@ -22,10 +22,7 @@
  *  imageview的初始frame
  */
 @property (nonatomic, assign) CGRect frame;
-/**
- *  imageview的初始是否可触控
- */
-@property (nonatomic, assign) BOOL userInteratctionEnabled;
+
 /**
  *  imageview的初始仿射
  */

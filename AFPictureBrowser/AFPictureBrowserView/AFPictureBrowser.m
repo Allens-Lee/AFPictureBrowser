@@ -11,6 +11,8 @@
 #import "AFZoomView.h"
 
 #define kWindow [[[UIApplication sharedApplication] delegate]window]
+#define kScreenBounds [[UIScreen mainScreen] bounds]
+#define kItemWidth (kScreenBounds.size.width + 20)
 
 @interface AFPictureBrowser ()<UIScrollViewDelegate>
 {
@@ -19,7 +21,6 @@
     UILabel *m_pPage;
     NSArray *m_arrImageView;
     NSArray *m_arrImageUrl;
-    CGFloat m_fItemWidth;
     NSInteger m_iCurrentPage;
     NSTimer *m_pTimer;
 }
@@ -28,29 +29,19 @@
 
 @implementation AFPictureBrowser
 
-- (id)init
-{
-    self = [super init];
-    if (self)
-    {
-        kWindow.windowLevel = UIWindowLevelAlert;
-    }
-    return self;
-}
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.frame = CGRectMake(0, 0, kScreenBounds.size.width, kScreenBounds.size.height);
         self.backgroundColor = [UIColor clearColor];
-        m_fItemWidth = self.frame.size.width + 20;
         
         m_pBackgroundView = [[UIView alloc]initWithFrame:self.bounds];
         m_pBackgroundView.backgroundColor = [UIColor blackColor];
         m_pBackgroundView.alpha = 0.0f;
         [self addSubview:m_pBackgroundView];
         
-        m_pScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, m_fItemWidth, self.frame.size.height)];
+        m_pScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kItemWidth, self.frame.size.height)];
         m_pScrollView.delegate = self;
         m_pScrollView.backgroundColor = [UIColor clearColor];
         m_pScrollView.pagingEnabled = YES;
@@ -66,26 +57,18 @@
     return self;
 }
 
-- (void)setFrame:(CGRect)frame
-{
-    CGRect fScreenBounds = [[UIScreen mainScreen] bounds];
-    CGRect fFrame = CGRectMake(0, 0, fScreenBounds.size.width, fScreenBounds.size.height);
-    [kWindow addSubview:self];
-    [super setFrame:fFrame];
-}
-
 #pragma mark -- public method
 - (void)ShowWithImageViews:(NSArray*)views SelectedView:(UIImageView*)selectedView
 {
-    if ([views containsObject:selectedView])
-    {
-        NSArray *arrNewViews = [self CopImageViewsFromArray:views];
+    NSArray *arrNewViews = [self CopyImageViewsFromArray:views];
+    if ([views containsObject:selectedView]){
         selectedView = arrNewViews[[views indexOfObject:selectedView]];
-        views = arrNewViews;
     }
-    [self SetImageViewsFromArray:views];
+    views = arrNewViews;
+    m_arrImageView = [self SetImageViewsFromArray:arrNewViews];
     if (m_arrImageView.count > 0)
     {
+        [self ShowInWindow];
         if ([selectedView isKindOfClass:[UIImageView class]] && [m_arrImageView containsObject:selectedView])
         {
             [self ShowSelectedImageView:selectedView];
@@ -95,29 +78,22 @@
             [self ResetAllImageView:m_arrImageView[0]];
         }
     }
-    else
-    {
-        [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(RemoveFromSuperView) userInfo:nil repeats:NO];
-    }
 }
 
 - (void)ShowWithImageViews:(NSArray*)views SelectedView:(UIImageView*)selectedView AllImageUrls:(NSArray *)urls
 {
-    if (views.count == urls.count)
+    if ([self SetImageViewsFromArray:views].count == urls.count)
     {
-        [self ShowWithImageViews:views SelectedView:selectedView];
         m_arrImageUrl = [urls copy];
-    }
-    else
-    {
-        [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(RemoveFromSuperView) userInfo:nil repeats:NO];
+        [self ShowWithImageViews:views SelectedView:selectedView];
     }
 }
 
 - (void)ShowWithImageUrls:(NSArray *)urls SelectItem:(NSInteger)item
 {
-    if (urls.count > 0 && item < urls.count)
+    if (urls.count > 0)
     {
+        [self ShowInWindow];
         m_arrImageUrl = [urls copy];
         NSMutableArray *arrImageView = [NSMutableArray array];
         for (NSInteger i = 0; i < urls.count; i ++)
@@ -127,20 +103,16 @@
         }
         m_arrImageView = arrImageView;
         [self SetImageViewsFromArray:m_arrImageView];
+        item = item < urls.count ? item : 0;
         [self ResetAllImageView:m_arrImageView[item]];
         [self StartLoadNearImageView];
-    }
-    else
-    {
-        [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(RemoveFromSuperView) userInfo:nil repeats:NO];
     }
 }
 
 #pragma mark -- Target method
 - (void)RemoveFromSuperView
 {
-    [m_pTimer invalidate];
-    m_pTimer = nil;
+    [self DeallocTimer];
     kWindow.windowLevel = UIWindowLevelNormal;
     [self removeFromSuperview];
 }
@@ -153,7 +125,7 @@
 }
 
 #pragma mark -- pravite method
-- (NSArray *)CopImageViewsFromArray:(NSArray *)views
+- (NSArray *)CopyImageViewsFromArray:(NSArray *)views
 {
     NSMutableArray *arrNewViews = [NSMutableArray array];
     for (id obj in views)
@@ -165,15 +137,18 @@
             pNewView.frame = pImageView.frame;
             [pImageView.superview addSubview:pNewView];
             pNewView.transform = pImageView.transform;
-            pNewView.userInteractionEnabled = pImageView.userInteractionEnabled;
             pNewView.image =  pImageView.image;
             [arrNewViews addObject:pNewView];
+        }
+        else
+        {
+            [arrNewViews addObject:obj];
         }
     }
     return arrNewViews;
 }
 
-- (void)SetImageViewsFromArray:(NSArray*)views
+- (NSArray *)SetImageViewsFromArray:(NSArray*)views
 {
     NSMutableArray *imgViews = [NSMutableArray array];
     for(id obj in views)
@@ -186,7 +161,7 @@
             [pData SetTempConverDataFromView:imageView];
         }
     }
-    m_arrImageView = [imgViews copy];
+    return imgViews;
 }
 
 - (void)ShowSelectedImageView:(UIImageView *)imageView
@@ -206,16 +181,15 @@
 {
     m_iCurrentPage = [m_arrImageView indexOfObject:imageView];
     m_pBackgroundView.alpha = 1.0f;
-    [m_pScrollView setContentSize:CGSizeMake(m_fItemWidth * m_arrImageView.count, 0)];
-    [m_pScrollView setContentOffset:CGPointMake(m_fItemWidth * [m_arrImageView indexOfObject:imageView], 0)];
+    [m_pScrollView setContentSize:CGSizeMake(kItemWidth * m_arrImageView.count, 0)];
+    [m_pScrollView setContentOffset:CGPointMake(kItemWidth * [m_arrImageView indexOfObject:imageView], 0)];
     for (NSInteger i = 0; i < m_arrImageView.count; i ++)
     {
         UIImageView *pImageView = m_arrImageView[i];
-        AFZoomView *pZoomView = [[AFZoomView alloc]initWithFrame:CGRectMake(i * m_fItemWidth, 0, 0, 0)];
+        AFZoomView *pZoomView = [[AFZoomView alloc]initWithFrame:CGRectMake(i * kItemWidth, 0, 0, 0)];
         [pZoomView ShowZoomViewWithImageView:pImageView];
         __weak typeof(self) weakSelf = self;
         pZoomView.CancleShow = ^(){
-            [weakSelf PrepareRemoveSelf];
             [weakSelf RemoveSelfFromSuperview];
         };
         pZoomView.tag = 100 + i;
@@ -237,30 +211,6 @@
     else
     {
         return CGRectMake((self.frame.size.width - fWidth) / 2.0f, (self.frame.size.height - fHeight) / 2.0f, fWidth, fHeight);
-    }
-}
-
-- (UIImageView *)GetCurrentView
-{
-    NSInteger iPage = roundf(m_pScrollView.contentOffset.x / m_pScrollView.frame.size.width);
-    return (UIImageView *)m_arrImageView[iPage];
-}
-
-- (void)PrepareRemoveSelf
-{
-    kWindow.windowLevel = UIWindowLevelNormal;
-    for (NSInteger i = 0; i < m_arrImageView.count; i ++)
-    {
-        UIImageView *pImageView = m_arrImageView[i];
-        if (pImageView != [self GetCurrentView])
-        {
-            AFTempConverData *pData = [AFTempConverData TempConverDataForView:pImageView];
-            pImageView.transform = CGAffineTransformIdentity;
-            pImageView.frame = pData.frame;
-            pImageView.transform = pData.transform;
-            pImageView.userInteractionEnabled = pData.userInteratctionEnabled;
-//            [pData.superview addSubview:pImageView];
-        }
     }
 }
 
@@ -291,20 +241,34 @@
     } completion:^(BOOL finished) {
         pCurrentImageView.transform = CGAffineTransformIdentity;
         pCurrentImageView.frame = pTempConverData.frame;
-        pCurrentImageView.userInteractionEnabled = pTempConverData.userInteratctionEnabled;
         pCurrentImageView.transform = pTempConverData.transform;
-        pCurrentImageView.alpha = 1.0f;
-//        [pTempConverData.superview addSubview:pCurrentImageView];
         [self RemoveFromSuperView];
     }];
+}
+
+- (void)ShowInWindow
+{
+    kWindow.windowLevel = UIWindowLevelAlert;
+    [kWindow addSubview:self];
+}
+
+- (UIImageView *)GetCurrentView
+{
+    NSInteger iPage = roundf(m_pScrollView.contentOffset.x / m_pScrollView.frame.size.width);
+    return (UIImageView *)m_arrImageView[iPage];
+}
+
+- (void)DeallocTimer
+{
+    [m_pTimer invalidate];
+    m_pTimer = nil;
 }
 
 - (void)ChangePageLableText
 {
     m_pPage.alpha = 1.0f;
     m_pPage.text = [NSString stringWithFormat:@"%li/%li",m_iCurrentPage + 1,m_arrImageView.count];
-    [m_pTimer invalidate];
-    m_pTimer = nil;
+    [self DeallocTimer];
     m_pTimer = [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(HidePageLable) userInfo:nil repeats:NO];
 }
 

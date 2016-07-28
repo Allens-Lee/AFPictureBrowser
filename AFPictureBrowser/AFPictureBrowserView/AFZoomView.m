@@ -137,8 +137,6 @@
     m_pImageView.frame = rct;
 }
 
-
-
 #pragma mark -- long press gesture method
 - (void)SaveImageToAlbum:(UIGestureRecognizer *)gesture
 {

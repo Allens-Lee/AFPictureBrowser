@@ -31,11 +31,6 @@
  *  只有所有要展示的imageview的image的URL，通过URL来浏览图片
  *
  *  @param urls 所有imageview的image的URL
- */
-/**
- *  只有所有要展示的imageview的image的URL，通过URL来浏览图片
- *
- *  @param urls 所有imageview的image的URL
  *  @param item 选中优先展示的imageview（Item从0开始，并且只能小于urls的个数）
  */
 - (void)ShowWithImageUrls:(NSArray *)urls SelectItem:(NSInteger)item;

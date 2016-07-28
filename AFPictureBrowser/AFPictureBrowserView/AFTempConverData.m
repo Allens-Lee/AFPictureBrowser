@@ -13,14 +13,12 @@
 + (instancetype)TempConverDataForView:(UIView *)view
 {
     static NSMutableDictionary *dict = nil;
-    if(dict==nil)
-    {
+    if(dict==nil){
         dict = [NSMutableDictionary dictionary];
     }
     
     AFTempConverData *pTempConverData = dict[@(view.hash)];   //view.hash view的内存块编号
-    if(pTempConverData==nil)
-    {
+    if(pTempConverData==nil){
         pTempConverData = [[self alloc] init];
         dict[@(view.hash)] = pTempConverData;
     }
@@ -34,9 +32,6 @@
     self.superview = view.superview;
     self.frame     = view.frame;
     self.transform = trans;
-    self.userInteratctionEnabled = view.userInteractionEnabled;
-    view.transform = trans;
-    view.userInteractionEnabled = NO;
 }
 
 + (CGSize)GetAfterAdjustSizeWithImageView:(UIImageView *)imageView
